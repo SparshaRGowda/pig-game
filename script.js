@@ -11,15 +11,28 @@ const current1 = document.getElementById('current--1');
 const player0 = document.querySelector('.player--0');
 const player1 = document.querySelector('.player--1');
 
-//initialize
-let playing = true;
-score0.textContent = '0';
-score1.textContent = '0';
-diceEl.classList.add('hidden');
+let activePlayer, currentScore, scores, playing;
 
-let activePlayer = 0;
-let currentScore = 0;
-const scores = [0, 0];
+//initialize
+const init = function () {
+  playing = true;
+  score0.textContent = 0;
+  score1.textContent = 0;
+  current0.textContent = 0;
+  current1.textContent = 0;
+
+  diceEl.classList.add('hidden');
+  player0.classList.add('player--active');
+  player1.classList.remove('player--active');
+  player0.classList.remove('player--winner');
+  player1.classList.remove('player--winner');
+
+  activePlayer = 0;
+  currentScore = 0;
+  scores = [0, 0];
+};
+
+init();
 
 const switchPlayer = function () {
   document.getElementById(`current--${activePlayer}`).textContent = 0;
@@ -54,7 +67,7 @@ holdBtn.addEventListener('click', function () {
     document.getElementById(`score--${activePlayer}`).textContent =
       scores[activePlayer];
 
-    if (scores[activePlayer] >= 20) {
+    if (scores[activePlayer] >= 100) {
       playing = false;
       diceEl.classList.add('hidden');
       document
@@ -66,3 +79,5 @@ holdBtn.addEventListener('click', function () {
     } else switchPlayer();
   }
 });
+
+newBtn.addEventListener('click', init);
